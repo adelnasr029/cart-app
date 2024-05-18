@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header>
+        <%- include('./partials/header') %>
+        <h1>Menu Page</h1>
+    </header>
+
+     
+    <ul class="menuItems">
+        <div class="listProduct">
+            <% for(let i=0; i < chairs.length; i++) {%>
+                <div class="item">
+                    <a href=""><img src="<%= `/img/${chairs[i].image}`%>" alt="">
+                    </a>
+                    <h2><%= chairs[i].name %></h2>
+                    <div class="price"><%= chairs[i].price %></div>
+                    <button class="addCart"
+                    data-id="${product.id}">
+                        Add To Cart
+                    </button>
+                </div>
+            <% } %>
+        </div>
+    </ul>
+
+
+
+    <script src="/js/script.js"></script>
+</body>
+</html>
