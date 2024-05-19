@@ -56,7 +56,21 @@ function checkForError() {
     startCarousel();
     checkForError()
   }
-  
+
+//cartTab
+let body = document.querySelector('body');
+let closeBtn = document.querySelector('.cartTab .close');
+let iconCart = document.querySelector('.icon-cart');
+
+
+iconCart.addEventListener('click', () => {
+    body.classList.toggle('activeTabCart');
+})
+closeBtn.addEventListener('click', () => {
+    body.classList.toggle('activeTabCart');
+})
+
+
   //add db
 //   const addItem = document.querySelector('#add')
 
