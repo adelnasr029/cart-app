@@ -19,15 +19,13 @@
                     </a>
                     <h2><%= chairs[i].name %></h2>
                     <div class="price"><%= chairs[i].price %></div>
-                    <button class="addCart"
-                    data-id="${product.id}">
+                    <button onClick="addItem('<%= chairs[i]._id %>', '<%= chairs[i].name %>')">
                         Add To Cart
                     </button>
                 </div>
             <% } %>
         </div>
     </ul>
-
 
 
     <script src="/js/script.js"></script>

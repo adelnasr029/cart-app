@@ -30,6 +30,15 @@ app.use(express.json())//parse json req
 app.set('view engine', 'ejs')
 
 //Routes 
+app.put('/add', (request, response) => {
+    console.log(request.body)
+    db.collection('menuItems').find({name: request.body.itemName})
+    .then(result => {
+        console.log('Team added')
+    })
+    .catch(error => console.error(error))
+
+})
 app.get('/', (req, res) => {
     res.render('index')
 })

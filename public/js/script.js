@@ -1,3 +1,25 @@
+const AddBtn = document.querySelectorAll('.addCart')
+Array.from(AddBtn).forEach((element)=>{
+    element.addEventListener('click', addToCart)
+})
+
+async function addItem(id, name){
+    try{
+        console.log(id)
+        console.log(name)
+
+    }catch(err){
+        console.log(err)
+    }
+}
+
+
+
+
+
+
+
+
 //function tht control Carsouel
 function startCarousel(){
     let activeImage = 0
@@ -29,7 +51,7 @@ function editItem(id, name, description){
 //Handle Delete Requests
 async function deleteItem(id){
     try{
-        const response = await fetch(`http://localhost:3500/item/delete/${id}`, {
+        const response = await fetch(`http://localhost:4500/item/delete/${id}`, {
             method: 'DELETE'
         })
         if(response.ok){
