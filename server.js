@@ -51,6 +51,10 @@ app.get('/menu', async (req, res) => {
     const menuItems = await db.collection('menuItems').find().toArray()
     res.render('menu.ejs', {chairs: menuItems})
 })
+app.get('/cart', async (req, res) => {
+    const cartItems = await db.collection('cartItems').find().toArray()
+    res.render('cart.ejs', {selectedItems: cartItems})
+})
 //Create 
 app.post('/item', async (req, res) => {
     const newItem = new Item(req.body)
@@ -61,7 +65,12 @@ app.post('/item', async (req, res) => {
         res.redirect('/item?error=true')
     }
  })
-
+app.post('/cart', async (req,res) => {
+    db.collection('cartItems').insertOne({name: req.body.name, price: req.body.price, image: req.body.image})
+    .then(result => {
+        console.log('Item added to Cart')
+    })
+})
 //Update 
 app.post('/item/update/:id', async (req, res) => {
     const {id} = req.params 

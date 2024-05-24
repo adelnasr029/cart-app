@@ -3,21 +3,27 @@ Array.from(AddBtn).forEach((element)=>{
     element.addEventListener('click', addToCart)
 })
 
-async function addItem(id, name){
+async function addItem(name, price, image){
+    console.log(name,price,image)
     try{
-        console.log(id)
-        console.log(name)
-
+        const response = await fetch('cart', {
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                'name': name,
+                'price': price,
+                'image': image
+            })
+        })
+      const data = await response.json()
+      console.log(data)
     }catch(err){
         console.log(err)
     }
 }
 
 
-
-
-
-
+// open and close tab
 
 
 //function tht control Carsouel
@@ -79,18 +85,7 @@ function checkForError() {
     checkForError()
   }
 
-//cartTab
-let body = document.querySelector('body');
-let closeBtn = document.querySelector('.cartTab .close');
-let iconCart = document.querySelector('.icon-cart');
 
-
-iconCart.addEventListener('click', () => {
-    body.classList.toggle('activeTabCart');
-})
-closeBtn.addEventListener('click', () => {
-    body.classList.toggle('activeTabCart');
-})
 
 
   //add db

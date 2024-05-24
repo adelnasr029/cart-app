@@ -173,7 +173,7 @@ header .icon-cart{
     width: 0;
 }
 .cartTab{
-    right: -400px;
+    /* right: -400px; */
     transition: 0.5s;
 }
 body.activeTabCart .cartTab{

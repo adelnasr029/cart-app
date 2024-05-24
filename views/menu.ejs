@@ -19,7 +19,7 @@
                     </a>
                     <h2><%= chairs[i].name %></h2>
                     <div class="price"><%= chairs[i].price %></div>
-                    <button onClick="addItem('<%= chairs[i]._id %>', '<%= chairs[i].name %>')">
+                    <button onClick="addItem('<%= chairs[i].name %>', '<%= chairs[i].price %>', '<%= chairs[i].image %>')">
                         Add To Cart
                     </button>
                 </div>
