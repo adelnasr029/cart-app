@@ -1,103 +1,38 @@
-require('dotenv').config();
 const express = require('express');
-const mongoose = require('mongoose');
-const MongoClient = require('mongodb').MongoClient;
-const cors = require('cors');
-const Item = require('./models/Item')
 const app = express()
-const port = process.env.PORT || 4000
+const cors = require('cors');
+// const MongoClient = require('mongodb').MongoClient;
+const connectDB = require('./config/database')
+
+
+require('dotenv').config({path: './config/.env'}) //this line enables our app to see env var
 
 //conncect to MongoDB
-mongoose.connect(`mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@experimental.fno2olz.mongodb.net/${process.env.MONGODB_DATABASE_NAME}?retryWrites=true&w=majority&appName=experimental`)
-.then( () => console.log('MongoDb connected'))
-.catch(err => console.log(err))
-let db,
-    dbConnectionStr = process.env.DB_STRING,
-    dbName = 'resturant'
+connectDB()
 
-MongoClient.connect(dbConnectionStr)
-    .then(client => {
-        console.log(`Connected to ${dbName} Database`)
-        db = client.db(dbName)
-    })
-
+const homeRoute = require('./routes/home')
+const itemRoute = require('./routes/item')
+const menuRoute = require('./routes/menu')
+const cartRoute = require('./routes/cart')
 //middleware
 app.use(cors())
 app.use(express.static('public')) //tells server static folder location
-//they work together help server to parse incoming req
 app.use(express.urlencoded({extended: false}))//parse req of str&arr
 app.use(express.json())//parse json req
 app.set('view engine', 'ejs')
 
 //Routes 
-app.put('/add', (request, response) => {
-    console.log(request.body)
-    db.collection('menuItems').find({name: request.body.itemName})
-    .then(result => {
-        console.log('Team added')
-    })
-    .catch(error => console.error(error))
-
-})
-app.get('/', (req, res) => {
-    res.render('index')
-})
-
-app.get('/item', async (req, res) => {
-    const items = await Item.find({})
-    res.render('item', {items})
-})
-app.get('/menu', async (req, res) => {
-    const menuItems = await db.collection('menuItems').find().toArray()
-    res.render('menu.ejs', {chairs: menuItems})
-})
-app.get('/cart', async (req, res) => {
-    const cartItems = await db.collection('cartItems').find().toArray()
-    res.render('cart.ejs', {selectedItems: cartItems})
-})
-//Create 
-app.post('/item', async (req, res) => {
-    const newItem = new Item(req.body)
-    try {
-        await newItem.save()
-        res.redirect('/item')
-    } catch(err) {
-        res.redirect('/item?error=true')
-    }
- })
-app.post('/cart', async (req,res) => {
-    db.collection('cartItems').insertOne({name: req.body.name, price: req.body.price, image: req.body.image})
-    .then(result => {
-        console.log('Item added to Cart')
-    })
-})
-//Update 
-app.post('/item/update/:id', async (req, res) => {
-    const {id} = req.params 
-    const {name, description}  = req.body
-    try {
-        await Item.findByIdAndUpdate(id, {name, description})
-        res.redirect('/item')
-    } catch(err) {
-        res.redirect('/item?error=true')
-    }
- })
-
- //Delete
-app.delete('/item/delete/:id', async (req, res) => {
-    const {id} = req.params 
-    try {
-        await Item.findByIdAndDelete(id)
-        res.status(200).json({message: 'Item deleted successfully'})
-    } catch(err) {
-        res.redirect('/item?error=true')
-    }
- })
-
+app.use('/', homeRoute)
+app.use('/item', itemRoute)
+app.use('/menu', menuRoute)
+app.use('/cart', cartRoute)
 //Start the server
+const port = process.env.PORT || 4000
 app.listen(port, () => {
     console.log(`Server running on : http://localhost:${port}`)
 })
+
+module.exports.MongoClient
 
  // add to db api 
 // app.post('/addobj', (request, response) => {
