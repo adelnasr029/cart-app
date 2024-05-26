@@ -7,7 +7,7 @@ async function addItem(name, price, image){
     console.log(name,price,image)
     try{
         const response = await fetch('cart', {
-            method: 'post',
+            method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
                 'name': name,
@@ -15,9 +15,10 @@ async function addItem(name, price, image){
                 'image': image
             })
         })
-      const data = await response.json()
-      console.log(data)
-    }catch(err){
+        const data = await response.json()
+        console.log(data)
+        location.reload()
+    } catch(err){
         console.log(err)
     }
 }

@@ -1,14 +1,22 @@
+const CartItems = require('../models/cartItems')
 
 
 module.exports = {
     getCartItems: async (req, res) => {
-        const cartItems = await db.collection('cartItems').find().toArray()
-        res.render('cart', {selectedItems: cartItems})
+        try{
+            const selectedItems = await CartItems.find({})
+            res.render('cart', {selectedItems})
+        } catch(err){
+            console.log(err)
+        }
     },
     createCartItem: async (req,res) => {
-        db.collection('cartItems').insertOne({name: req.body.name, price: req.body.price, image: req.body.image})
-        .then(result => {
-            console.log('Item added to Cart')
-        })
+        const newItem = new CartItems({name: req.body.name, price: req.body.price, image: req.body.image})
+        try{
+            await newItem.save()
+            res.redirect('/cart')
+        } catch(err) {
+            res.redirect('/cart?error=true')
+        }
     }
 }
