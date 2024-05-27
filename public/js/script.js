@@ -1,7 +1,28 @@
 const AddBtn = document.querySelectorAll('.addCart')
+const minusBtn = document.querySelectorAll('.minus')
+
+Array.from(minusBtn).forEach((element) => {
+    element.addEventListener('click', subtract)
+})
 Array.from(AddBtn).forEach((element)=>{
     element.addEventListener('click', addToCart)
 })
+
+async function subtract(id){
+    try{
+        const response = await fetch(`http://localhost:4500/cart/delete/${id}`, {
+            method: 'DELETE'
+        })
+        if(response.ok){
+            location.reload()
+        }else{
+            console.log('failed to delete item')
+        }
+
+    } catch(error){
+        console.log('error occurred:', error)
+    }
+}
 
 async function addItem(name, price, image){
     console.log(name,price,image)

@@ -23,9 +23,9 @@
                             <div class="name"><%= selectedItems[i].name %></div>
                             <div class="totalPrice"><%= selectedItems[i].price %></div>
                             <div class="quantity">
-                                <span class="minus" data-id="<%= `${selectedItems[i]._id}`%>" >-</span>
-                                <span></span>
-                                <span class="plus" data-id="<%= `${selectedItems[i]._id}`%>"   >+</span>
+                                <span class="minus" onclick="subtract('<%= selectedItems[i]._id %>')">-</span>
+                                <span ><%= selectedItems[i].count %></span>
+                                <span class="plus" data-id="<%= `${selectedItems[i]._id}`%>" >+</span>
                             </div>
                         </div>
                     <% } %>
