@@ -25,7 +25,7 @@
                             <div class="quantity">
                                 <span class="minus" onclick="subtract('<%= selectedItems[i]._id %>')">-</span>
                                 <span ><%= selectedItems[i].count %></span>
-                                <span class="plus" data-id="<%= `${selectedItems[i]._id}`%>" >+</span>
+                                <span class="plus" onclick="increment('<%= selectedItems[i].name %>', '<%= selectedItems[i].price %>', '<%= selectedItems[i].image %>')" >+</span>
                             </div>
                         </div>
                     <% } %>

@@ -1,6 +1,5 @@
 const { name } = require('ejs');
 const CartItems = require('../models/cartItems')
-const { deleteItem } = require('./item')
 
 
 module.exports = {
@@ -35,9 +34,7 @@ module.exports = {
                     }
                   }
               ]);
-          
-              console.log('Count of documents by age:', selectedItems);
-
+            //   console.log('Count of documents by age:', selectedItems);
             res.render('cart', {selectedItems})
         } catch(err){
             console.log(err)
@@ -48,6 +45,15 @@ module.exports = {
         try{
             await newItem.save()
             res.redirect('/cart')
+        } catch(err) {
+            res.redirect('/cart?error=true')
+        }
+    },
+    incrementItem: async (req,res) => {
+        const newItem = new CartItems({name: req.body.name, price: req.body.price, image: req.body.image})
+        try{
+            await newItem.save()
+            res.status(200).json({message: 'Item incremented successfully'})
         } catch(err) {
             res.redirect('/cart?error=true')
         }

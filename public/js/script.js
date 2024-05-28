@@ -1,16 +1,21 @@
 const AddBtn = document.querySelectorAll('.addCart')
 const minusBtn = document.querySelectorAll('.minus')
+const plusBtn = document.querySelectorAll('.plus')
+
 
 Array.from(minusBtn).forEach((element) => {
     element.addEventListener('click', subtract)
 })
+Array.from(plusBtn).forEach((element) => {
+    element.addEventListener('click', increment)
+})
 Array.from(AddBtn).forEach((element)=>{
-    element.addEventListener('click', addToCart)
+    element.addEventListener('click', addItem)
 })
 
 async function subtract(id){
     try{
-        const response = await fetch(`http://localhost:4500/cart/delete/${id}`, {
+        const response = await fetch(`cart/delete/${id}`, {
             method: 'DELETE'
         })
         if(response.ok){
@@ -24,8 +29,28 @@ async function subtract(id){
     }
 }
 
+async function increment(name, price, image){
+    console.log(name, price, image)
+    try{
+        const response = await fetch(`cart/increment`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                'name': name,
+                'price': price,
+                'image': image
+            })
+        })
+        const data = await response.json()
+        console.log(data)
+        location.reload()
+    } catch(err){
+        console.log(err)
+    }
+}
+
 async function addItem(name, price, image){
-    console.log(name,price,image)
+    // console.log(name,price,image)
     try{
         const response = await fetch('cart', {
             method: 'POST',
