@@ -5,9 +5,12 @@ const CartItems = require('../models/cartItems')
 module.exports = {
     getCartItems: async (req, res) => {
         try{
-            // const selectedItems = await CartItems.find({})
             const selectedItems = await CartItems.aggregate([
                 {
+                    $match: { userId: req.user.id }
+                    },
+                {
+
                     $group: {
                       _id: "$name", // Group by the 'name' field
                       doc: { $first: "$$ROOT" }, // Get the first document in each group
@@ -41,7 +44,7 @@ module.exports = {
         }
     },
     createCartItem: async (req,res) => {
-        const newItem = new CartItems({name: req.body.name, price: req.body.price, image: req.body.image})
+        const newItem = new CartItems({name: req.body.name, price: req.body.price, image: req.body.image, userId: req.user.id})
         try{
             await newItem.save()
             res.redirect('/cart')
@@ -50,7 +53,7 @@ module.exports = {
         }
     },
     incrementItem: async (req,res) => {
-        const newItem = new CartItems({name: req.body.name, price: req.body.price, image: req.body.image})
+        const newItem = new CartItems({name: req.body.name, price: req.body.price, image: req.body.image, userId: req.user.id})
         try{
             await newItem.save()
             res.status(200).json({message: 'Item incremented successfully'})

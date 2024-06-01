@@ -10,7 +10,11 @@ const cartSchema = new mongoose.Schema({
     },
     image: {
         type: String
-    }
+    },
+    userId: {
+        type: String,
+        required: true
+      }
 }, {
     collection: "cartItems"
 })
