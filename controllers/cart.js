@@ -3,8 +3,11 @@ const CartItems = require('../models/cartItems')
 
 
 module.exports = {
+
     getCartItems: async (req, res) => {
         try{
+            const numOfItems = await CartItems.countDocuments({userId:req.user.id})
+            console.log(numOfItems)
             const selectedItems = await CartItems.aggregate([
                 {
                     $match: { userId: req.user.id }
@@ -65,6 +68,15 @@ module.exports = {
         const {id} = req.params 
         try {
             await CartItems.findByIdAndDelete(id)
+            res.status(200).json({message: 'Item deleted successfully'})
+        } catch(err) {
+            res.redirect('/item?error=true')
+        }
+     },
+     deleteBtn: async (req, res) => {
+        const {name} = req.params 
+        try {
+            await CartItems.deleteMany({name: name})
             res.status(200).json({message: 'Item deleted successfully'})
         } catch(err) {
             res.redirect('/item?error=true')
