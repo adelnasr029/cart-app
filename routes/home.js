@@ -8,11 +8,12 @@ const cartController = require('../controllers/cartController');
 const { ensureAuth, ensureGuest } = require('../middleware/auth')
 
 
-router.use(cartController.computeCartItemCount);
 
+router.use(cartController.computeCartItemCount);
 
 router.get('/', homeController.getIndex)
 router.get('/ar',homeController.getIndexAr)
+
 router.get('/login', authController.getLogin)
 router.post('/login', authController.postLogin)
 router.get('/logout', authController.logout)

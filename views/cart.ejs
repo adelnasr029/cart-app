@@ -37,8 +37,14 @@
         </div>
         
         <div class="btn">
-            <button class="close">ClOSE</button>
-            <button class="checkOut">Check Out</button>
+            <% let total = 0 %>
+            <% for(let i=0; i < selectedItems.length; i++) {%>
+                <% total +=selectedItems[i].count * selectedItems[i].price %>
+                <% } %>
+                <span>total: <%= total %>$</span>
+            <button class="checkOut">
+                <a href="/cart/checkout">Check Out</a> 
+            </button>
         </div>
     </div>
     <a href="/logout">Logout</a>

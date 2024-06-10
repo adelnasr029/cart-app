@@ -4,7 +4,9 @@ const CartItems = require('../models/cartItems')
 async function computeCartItemCount(req, res, next) {
     try {
         const userId = req.session.userId;
-        const cart = await CartItems.countDocuments({userId:req.user.id})
+        console.log(userId)
+        //there's a bug here especially when loggin out
+        const cart = await CartItems.countDocuments({user: userId})
         const itemCount = cart ? cart : 0;
         res.locals.cartItemCount = itemCount;
         next();
